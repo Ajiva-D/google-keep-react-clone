@@ -1,16 +1,41 @@
-import React from 'react';
-import './App.css';
-import Header from './components/Header'
-import Main from './components/Main'
-
+import React, { useState } from "react";
+import "./App.css";
+import Header from "./components/Header";
+import Main from "./components/Main";
 
 function App() {
-  return (
-    <div className="App">
-			<Header/>
-			<Main/>
-    </div>
-  );
+	const [showInput, setShowInput] = useState(false);
+	const [textFocused, setTextFocused] = useState(false);
+	const [titleFocused, setTitleFocused] = useState(true);
+	const [textValue, setTextValue] = useState('');
+	const [titleValue, setTitleValue] = useState('')
+
+	const blurOut = () => {
+		if (!textFocused && !titleFocused) {
+			setShowInput(false)
+		}
+	};
+
+	return (
+		<div
+			className="App"
+			onClick={() => {
+				blurOut();
+			}}
+		>
+			<Header />
+			<Main
+				showInput={showInput}
+				textFocused={textFocused}
+				titleFocused={titleFocused}
+				onTextFocus={(state) => setTextFocused(state)}
+				onTitleFocus={(state)=>setTitleFocused(state)}
+				onShowInput = {(state)=>setShowInput(state)}
+				onTextChange = {(state)=>setTextValue(state)}
+				onTitleChange = {state=>setTitleValue(state)}
+			/>
+		</div>
+	);
 }
 
 export default App;

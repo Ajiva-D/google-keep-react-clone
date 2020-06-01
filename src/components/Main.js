@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react'
 import styled from "styled-components";
+import Note from './Note'
 
 const NoteInput = styled.form`
 box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
@@ -35,54 +36,41 @@ outline:none;
 /* height:100%; */
 resize: none;
 overflow: hidden;
-min-height: 30px;
+min-height: 10px;
 &::placeholder{
 	color:#3c4043;
 	opacity:1;
 }
 
 `  
-const Main = () =>{
-	const [showInput, setShowInput] = useState(false);
-	const [textFocused, setTextFocused] = useState(false);
-	const [titleFocused, setTitleFocused] = useState(false);
+const Main = (props) =>{
 
 	const textAreaRef = useRef(null);
 	// const titleRef = useRef(null);
 
-
-	// const style = {
-	// 	display: "flex",
-	// 	justifyContent:"center"
-	// }
 	 const autoGrow = (elem) =>{
 		elem.current.style.height = "5px";
-    elem.current.style.height = (30 + elem.current.scrollHeight)+"px";
-	 }
-	 const blurOut = () => {
-		console.log("text",textFocused)
-		// console.log("title", titleFocused)
-		if(!textFocused && !titleFocused){
-			setShowInput(false)
-		}
+    elem.current.style.height = (10 + elem.current.scrollHeight)+"px";
 	 }
 	  
 	return(
 		<main>
 			<NoteInput action="">
-				{showInput ? <Title type="text" name="" id="" placeholder="Title"
-				onFocus={()=>setTitleFocused(true)}
-				onBlur={()=>{
-					setTitleFocused(false);
-					blurOut()}}/> : ''}
+				{props.showInput ? <Title type="text" name="" id="" placeholder="Title" 
+				onFocus={()=>props.onTitleFocus(true)}
+				onBlur={()=>props.onTitleFocus(false)}
+				onChange={(e)=>props.onTitleChange(e.target.value)}
+				/> : ''
+				}
 				<TextArea name="" id="" cols="30" rows="1" placeholder="Take a note..." onFocus={()=> {
-					setShowInput(true);
-					setTextFocused(true);
+		 			props.onShowInput(true);
+		 			props.onTextFocus(true)
 					textAreaRef.current.focus();
-					}} onInput={()=>autoGrow(textAreaRef)} ref={textAreaRef} onBlur={()=>{
-						setTextFocused(false)
-						blurOut()}}/>
+					}} onInput={()=>autoGrow(textAreaRef)} ref={textAreaRef} 	onBlur={()=>props.onTextFocus(false)}
+					onChange={(e)=>props.onTextChange(e.target.value)}
+					/>
 			</NoteInput>
+			<Note/>
 		</main>
 	)
 }
