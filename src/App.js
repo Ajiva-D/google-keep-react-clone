@@ -6,20 +6,23 @@ import Main from "./components/Main";
 function App() {
 	const [showInput, setShowInput] = useState(false);
 	const [textFocused, setTextFocused] = useState(false);
-	const [titleFocused, setTitleFocused] = useState(true);
+	const [titleFocused, setTitleFocused] = useState(false);
 	const [textValue, setTextValue] = useState('');
 	const [titleValue, setTitleValue] = useState('');
 	const [notes, setNotes] = useState([]);
 
 	const blurOut = () => {
 		if (!textFocused && !titleFocused) {
-			setShowInput(false)
 			if(textValue !== '' || titleValue !== ''){
+				setShowInput(false)
 				let noteObj = {
 					title:titleValue,
 					text:textValue
 				}
+				setTextValue('');
+				setTitleValue('')
 				setNotes([...notes, noteObj]);
+			
 			}
 		}
 	};
@@ -33,6 +36,8 @@ function App() {
 		>
 			<Header />
 			<Main
+				textValue = {textValue}
+				titleValue = {titleValue}
 				showInput={showInput}
 				textFocused={textFocused}
 				titleFocused={titleFocused}

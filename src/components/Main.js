@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, { useRef } from 'react'
 import styled from "styled-components";
 import Note from './Note'
 
@@ -60,12 +60,13 @@ const Main = (props) =>{
 		<main>
 			<NoteInput action="">
 				{props.showInput ? <Title type="text" name="" id="" placeholder="Title" 
+				value={props.titleValue}
 				onFocus={()=>props.onTitleFocus(true)}
 				onBlur={()=>props.onTitleFocus(false)}
 				onChange={(e)=>props.onTitleChange(e.target.value)}
 				/> : ''
 				}
-				<TextArea name="" id="" cols="30" rows="1" placeholder="Take a note..." onFocus={()=> {
+				<TextArea name="" id="" cols="30" rows="1" placeholder="Take a note..." value={props.textValue} onFocus={()=> {
 		 			props.onShowInput(true);
 		 			props.onTextFocus(true)
 					textAreaRef.current.focus();
