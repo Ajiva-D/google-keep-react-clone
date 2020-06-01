@@ -8,11 +8,19 @@ function App() {
 	const [textFocused, setTextFocused] = useState(false);
 	const [titleFocused, setTitleFocused] = useState(true);
 	const [textValue, setTextValue] = useState('');
-	const [titleValue, setTitleValue] = useState('')
+	const [titleValue, setTitleValue] = useState('');
+	const [notes, setNotes] = useState([]);
 
 	const blurOut = () => {
 		if (!textFocused && !titleFocused) {
 			setShowInput(false)
+			if(textValue !== '' || titleValue !== ''){
+				let noteObj = {
+					title:titleValue,
+					text:textValue
+				}
+				setNotes([...notes, noteObj]);
+			}
 		}
 	};
 
@@ -33,6 +41,7 @@ function App() {
 				onShowInput = {(state)=>setShowInput(state)}
 				onTextChange = {(state)=>setTextValue(state)}
 				onTitleChange = {state=>setTitleValue(state)}
+				notes={notes}
 			/>
 		</div>
 	);

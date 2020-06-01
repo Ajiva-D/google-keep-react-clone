@@ -41,8 +41,11 @@ min-height: 10px;
 	color:#3c4043;
 	opacity:1;
 }
-
 `  
+const NoteCon = styled.div`
+padding:20px;
+display:flex;
+`
 const Main = (props) =>{
 
 	const textAreaRef = useRef(null);
@@ -52,7 +55,7 @@ const Main = (props) =>{
 		elem.current.style.height = "5px";
     elem.current.style.height = (10 + elem.current.scrollHeight)+"px";
 	 }
-	  
+
 	return(
 		<main>
 			<NoteInput action="">
@@ -70,7 +73,9 @@ const Main = (props) =>{
 					onChange={(e)=>props.onTextChange(e.target.value)}
 					/>
 			</NoteInput>
-			<Note/>
+			<NoteCon>
+				{props.notes.map((note,index)=><Note note={note} key={index}/>)}
+			</NoteCon>
 		</main>
 	)
 }
