@@ -45,6 +45,8 @@ min-height: 10px;
 const NoteCon = styled.div`
 padding:20px;
 display:flex;
+flex-wrap:wrap;
+justify-content:center;
 `
 const Main = (props) =>{
 
