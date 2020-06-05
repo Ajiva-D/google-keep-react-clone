@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Main from "./components/Main";
+import api from './api'
+import moduleName from './'
 
 function App() {
 	const [showInput, setShowInput] = useState(false);
@@ -11,7 +13,25 @@ function App() {
 	const [titleValue, setTitleValue] = useState('');
 	const [notes, setNotes] = useState([]);
 
-	const blurOut = () => {
+	 useEffect(()=>{
+		const getData = async ()=>{
+			try{
+				let {data} = await api.get('data.json');
+				const db = firebase.database().ref('data');
+				console.log(db);
+				
+				// console.log(data)
+			if(data){
+				setNotes([...notes, data])
+			}
+			 }
+			 catch(error){
+				 console.log(error)
+			 }
+		};
+		getData();
+	 }, [])
+	const blurOut = async () => {
 		if (!textFocused && !titleFocused) {
 			if(textValue !== '' || titleValue !== ''){
 				setShowInput(false)
@@ -21,8 +41,13 @@ function App() {
 				}
 				setTextValue('');
 				setTitleValue('')
-				setNotes([...notes, noteObj]);
-			
+				try{
+					const {data} = await api.post('data.json',noteObj);
+					setNotes([...notes, data]);
+				}
+				catch(error){
+					console.log(error);
+				}
 			}
 		}
 	};
