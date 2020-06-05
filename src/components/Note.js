@@ -10,6 +10,7 @@ border-radius:8px;
 text-align:left;
 font-size:18px;
 margin:10px;
+/* min-height:300px; */
 min-width:300px;
 `
 const H = styled.h3`

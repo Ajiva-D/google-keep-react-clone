@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import api from './api'
-import moduleName from './'
+import firebase from './firebase'
 
 function App() {
 	const [showInput, setShowInput] = useState(false);
@@ -14,24 +13,30 @@ function App() {
 	const [notes, setNotes] = useState([]);
 
 	 useEffect(()=>{
-		const getData = async ()=>{
-			try{
-				let {data} = await api.get('data.json');
-				const db = firebase.database().ref('data');
-				console.log(db);
-				
-				// console.log(data)
-			if(data){
-				setNotes([...notes, data])
-			}
-			 }
-			 catch(error){
-				 console.log(error)
-			 }
-		};
 		getData();
 	 }, [])
-	const blurOut = async () => {
+
+	 const getData = ()=>{
+		let notesArr = [];
+		try{
+			const db = firebase.database().ref('data');
+			db.orderByValue().once("value", snapshot =>{
+				snapshot.forEach((note)=>{
+					// console.log(notes)
+					// setNotes([...notes, note.val()])
+					notesArr.push(note.val());
+				})
+			if(notesArr.length !== 0){
+				setNotes(notesArr)
+			}
+			})
+		 }
+		 catch(error){
+			 console.log(error)
+		 }
+	}; 
+	
+	const blurOut = () => {
 		if (!textFocused && !titleFocused) {
 			if(textValue !== '' || titleValue !== ''){
 				setShowInput(false)
@@ -42,8 +47,11 @@ function App() {
 				setTextValue('');
 				setTitleValue('')
 				try{
-					const {data} = await api.post('data.json',noteObj);
-					setNotes([...notes, data]);
+					setNotes([...notes, noteObj])
+					// console.log(setNotes([...notes, noteObj]))
+					const db = firebase.database().ref('data');
+					db.push().set(noteObj)
+					// await api.post('data.json',noteObj);
 				}
 				catch(error){
 					console.log(error);
