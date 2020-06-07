@@ -35,7 +35,9 @@ function App() {
 			 console.log(error)
 		 }
 	}; 
-	
+	const updateNote = ()=>{
+		
+	}
 	const blurOut = () => {
 		if (!textFocused && !titleFocused) {
 			if(textValue !== '' || titleValue !== ''){
