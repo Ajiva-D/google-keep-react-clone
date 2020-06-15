@@ -1,6 +1,9 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from "styled-components";
 import Note from './Note'
+import Modal from './modal'
+
+
 
 const NoteInput = styled.form`
 box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 2px 6px 2px rgba(60,64,67,.15);
@@ -49,7 +52,7 @@ flex-wrap:wrap;
 justify-content:center;
 `
 const Main = (props) =>{
-
+	const [isModal, setisModal] = useState(false)
 	const textAreaRef = useRef(null);
 	// const titleRef = useRef(null);
 
@@ -79,6 +82,7 @@ const Main = (props) =>{
 			<NoteCon>
 				{props.notes.map((note,index)=><Note note={note} key={index}/>)}
 			</NoteCon>
+		{	isModal ? <Modal/> : ''}
 		</main>
 	)
 }
