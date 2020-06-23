@@ -60,6 +60,11 @@ const Main = (props) =>{
 		elem.current.style.height = "5px";
     elem.current.style.height = (10 + elem.current.scrollHeight)+"px";
 	 }
+	 const openModal = ()=>{
+		 setisModal(true);
+		 console.log("open");
+		 
+	 }
 
 	return(
 		<main>
@@ -80,7 +85,7 @@ const Main = (props) =>{
 					/>
 			</NoteInput>
 			<NoteCon>
-				{props.notes.map((note,index)=><Note note={note} key={index}/>)}
+				{props.notes.map((note,index)=><Note note={note} key={index} onClick={()=>openModal}/>)}
 			</NoteCon>
 		{	isModal ? <Modal/> : ''}
 		</main>
